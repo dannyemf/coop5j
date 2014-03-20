@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/WEB-INF/plantilla/app.xhtml"
+                xmlns:p="http://primefaces.org/ui"                
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:bs="http://java.sun.com/jsf/composite/bscomp">   
+
+    <ui:define name="page_title">Periodos</ui:define>    
+    <ui:define name="title">Lista de periodos</ui:define>
+    
+    <ui:define name="content">
+        
+        #{contextBean.checkPagePermiso('lista_periodos')}
+
+        <h:form id="formListaUsuarios">
+            
+            <bs:searchNewcontrol 
+                value="#{listPeriodoController.textoBusqueda}" 
+                actionListenerSearch="#{listPeriodoController.eventoBuscar}" 
+                actionNew="#{periodoController.eventoNuevo}"
+                disabledNew="#{contextBean.checkDisabled('crear_periodo')}">
+            </bs:searchNewcontrol>
+            
+            <br/>
+            <br/>
+            
+            <p:dataTable id="listTable" value="#{listPeriodoController.listaDatos}" 
+                           var="item" paginator="true" paginatorPosition="bottom" rows="10">
+                
+                <p:column headerText="Id" sortBy="id" filterBy="#{item.id}" filterMatchMode="contains">
+                    <h:outputText value="#{item.id}"/>
+                </p:column>
+                
+                <p:column headerText="Nombre" sortBy="nombre" filterBy="#{item.nombre}" filterMatchMode="contains">
+                    <h:outputText value="#{item.nombre}"/>
+                </p:column>
+                
+                <p:column headerText="Inicio" sortBy="fechaInicio" filterBy="#{item.fechaInicio}" filterMatchMode="contains">
+                    <h:outputText value="#{item.fechaInicio}"/>
+                </p:column>
+                
+                <p:column headerText="Fin" sortBy="fechaFin" filterBy="#{item.fechaFin}" filterMatchMode="contains">
+                    <h:outputText value="#{item.fechaFin}"/>
+                </p:column>
+                
+                <p:column headerText="V. Acción" sortBy="valorAccion" filterBy="#{item.valorAccion}" filterMatchMode="contains">
+                    <h:outputText value="#{item.valorAccion}"/>
+                </p:column>
+                <p:column headerText="P. Interés" sortBy="valorInteres" filterBy="#{item.valorInteres}" filterMatchMode="contains">
+                    <h:outputText value="#{item.valorInteres}"/>
+                </p:column>
+                
+                
+                <p:column>
+                    <div class="btn-group btn-group-sm">
+                        <h:commandLink title="Editar" styleClass="btn btn-primary" action="#{periodoController.eventoEditar(item)}" disabled="#{contextBean.checkDisabled('editar_periodo')}">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                        </h:commandLink>
+                        <h:commandLink title="Socios" styleClass="btn btn-success" action="#{perSocController.eventoAdmSocios(item)}" disabled="#{contextBean.checkDisabled('editar_periodo')}">
+                            <span class="glyphicon glyphicon-user"></span>
+                        </h:commandLink>
+                        <h:commandLink title="Semanas" styleClass="btn btn-success" action="#{perSemController.eventoAdmSemanas(item)}" disabled="#{contextBean.checkDisabled('editar_periodo')}">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </h:commandLink>
+                    </div>
+                </p:column>
+                
+            </p:dataTable>
+            
+            
+            
+        </h:form>
+        
+    </ui:define>
+
+</ui:composition>

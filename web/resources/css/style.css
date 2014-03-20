@@ -1,0 +1,40 @@
+/* 
+    Document   : style
+    Created on : 06/03/2014, 06:10:52 PM
+    Author     : uti
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+body {
+    /**Nav bar footer*/
+    /*
+    padding-top: 50px;
+    padding-bottom: 70px;
+    */
+    padding-bottom: 70px;
+    
+}
+
+.iceMsgError{
+    color: red;
+}
+
+.carousel-extra{
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    z-index: 15;
+    width: 60%;
+    margin-left: -30%;
+    padding-left: 0px;    
+    text-align: right;
+}
+
+.form-controls .btn{
+    margin-right: 5px;
+}
+
+.wijmo-wijmenu-link:hover .wijmo-wijmenu-text{
+    color: #FFFFFF;
+}

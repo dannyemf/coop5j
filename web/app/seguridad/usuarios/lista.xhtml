@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/WEB-INF/plantilla/app.xhtml"
+                xmlns:p="http://primefaces.org/ui"      
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:bs="http://java.sun.com/jsf/composite/bscomp">   
+
+    <ui:define name="page_title">Usuarios</ui:define>    
+    <ui:define name="title">Lista de usuarios</ui:define>
+    
+    <ui:define name="content">
+        
+        #{contextBean.checkPagePermiso('lista_usuarios')}
+
+        <h:form id="formListaUsuarios">
+            
+            <bs:searchNewcontrol 
+                value="#{listUsuarioController.textoBusqueda}" 
+                actionListenerSearch="#{listUsuarioController.eventoBuscar}" 
+                actionNew="#{usuarioController.eventoNuevo}"
+                disabledNew="#{contextBean.checkDisabled('crear_usuario')}">
+            </bs:searchNewcontrol>
+            
+            <br/>
+            <br/>
+            
+            <p:dataTable id="listTable" value="#{listUsuarioController.listaDatos}" 
+                           var="item" paginator="true" paginatorPosition="bottom" rows="10">
+                
+                <p:column headerText="Id" sortBy="id" filterBy="#{item.id}" filterMatchMode="contains">
+                    <h:outputText value="#{item.id}"/>
+                </p:column>
+                
+                <p:column headerText="Login" sortBy="login" filterBy="#{item.userName}" filterMatchMode="contains">
+                    <h:outputText value="#{item.userName}"/>
+                </p:column>
+                
+                <p:column headerText="Descripción" sortBy="descripcion" filterBy="#{item.descripcion}" filterMatchMode="contains">
+                    <h:outputText value="#{item.descripcion}"/>
+                </p:column>
+                
+                <p:column headerText="Grupos">
+                    <h:outputText value="#{item.grupos}"/>
+                </p:column>
+                
+                <p:column>
+                    <h:commandLink value="Editar" action="#{usuarioController.eventoEditar(item)}" disabled="#{contextBean.checkDisabled('editar_usuario')}"></h:commandLink>
+                </p:column>
+                
+            </p:dataTable>
+            
+            
+            
+        </h:form>
+        
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/WEB-INF/plantilla/app.xhtml"
+                xmlns:p="http://primefaces.org/ui"                
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"                
+                xmlns:bs="http://java.sun.com/jsf/composite/bscomp">
+
+    <ui:define name="page_title">Periodos</ui:define>
+    <ui:define name="title">Lista de socios del periodo</ui:define>
+
+    <ui:define name="content">                
+
+        #{contextBean.checkPagePermiso(perSocController.modeloEdicion.id eq null ? 'crear_periodo' : 'editar_periodo')}
+
+        <h:panelGrid columns="6" styleClass="table table-bordered">
+            <h:outputLabel value="Nombre: "></h:outputLabel>
+            <h:inputText value="#{perSocController.modeloEdicion.nombre}" disabled="true"></h:inputText>
+
+            <h:outputLabel value="Valor acción: "></h:outputLabel>
+            <h:inputText value="#{perSocController.modeloEdicion.valorAccion}" disabled="true"></h:inputText>
+
+            <h:outputLabel value="Valor interés: "></h:outputLabel>
+            <h:inputText value="#{perSocController.modeloEdicion.valorInteres}" disabled="true"></h:inputText>
+        </h:panelGrid>
+
+        <br/>
+
+        <h:form id="frmEdit">                                                                                    
+            <h:panelGrid columns="5" styleClass="table table-bordered">                
+                <h:outputText value="Seleccione socio:"></h:outputText>
+                <h:panelGrid>
+                    <p:autoComplete id="acSocio"                                       
+                                    minQueryLength="2"        
+                                    maxResults="10"
+                                    var="s"                                                                              
+                                    completeMethod="#{perSocController.textChangeEventHandler}"
+                                    label="Buscar socio:"
+                                    itemLabel="#{s.apellidos} #{s.nombres}" itemValue="#{s}"
+                                    value="#{perSocController.selectedSocio}"
+                                    converter="socioConverter"
+                                    forceSelection="true">                               
+                        <p:column>#{s.id}</p:column> 
+                        <p:column>#{s.cedula}</p:column> 
+                        <p:column>#{s.apellidos}</p:column> 
+                        <p:column>#{s.nombres}</p:column> 
+                    </p:autoComplete>                    
+                    <p:message for="acSocio"></p:message>
+                </h:panelGrid>
+
+
+                <h:outputText value="Acciones"></h:outputText>
+                <h:inputText value="#{perSocController.acciones}"></h:inputText>
+
+                <h:commandLink styleClass="btn btn-success" actionListener="#{perSocController.addSocio}">
+                    <span class="glyphicon glyphicon-plus-sign"></span> Agregar
+                </h:commandLink>
+
+            </h:panelGrid>            
+
+            <br/>
+
+
+            <p:dataTable id="listTable" value="#{perSocController.listaCuentas}" var="item" 
+                         paginator="true" paginatorPosition="bottom" rows="10" editable="true">
+
+                <p:ajax event="rowEdit" listener="#{perSocController.rowEditEvent}" />  
+        
+                <p:column headerText="Id" sortBy="id" filterBy="#{item.id}" filterMatchMode="contains">
+                    <h:outputText value="#{item.id}"/>
+                </p:column>
+
+                <p:column headerText="Cédula" sortBy="cedula" filterBy="#{item.socio.cedula}" filterMatchMode="contains">
+                    <h:outputText value="#{item.socio.cedula}"/>
+                </p:column>
+                <p:column headerText="Apellidos" sortBy="apellidos" filterBy="#{item.socio.apellidos}" filterMatchMode="contains">
+                    <h:outputText value="#{item.socio.apellidos}"/>
+                </p:column>
+                <p:column headerText="Nombres" sortBy="nombres" filterBy="#{item.socio.nombres}" filterMatchMode="contains">
+                    <h:outputText value="#{item.socio.nombres}"/>
+                </p:column>
+                <p:column headerText="Acciones" sortBy="acciones" filterBy="#{item.socio.acciones}" filterMatchMode="contains">                    
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{item.acciones}"/>
+                        </f:facet>
+                        <f:facet name="input">
+                            <h:inputText value="#{item.acciones}"/>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+                <p:column headerText="Total Semanal" sortBy="totalAporteSemanal" filterBy="#{item.socio.totalAporteSemanal}" filterMatchMode="contains">
+                    <h:outputText value="#{item.totalAporteSemanal}"/>
+                </p:column>
+                <p:column headerText="Registro" sortBy="fechaRegistro" filterBy="#{item.fechaRegistro}" filterMatchMode="contains">
+                    <h:outputText value="#{item.fechaRegistro}">
+                        <f:convertDateTime pattern="yyyy-MM-dd"></f:convertDateTime>
+                    </h:outputText>
+                </p:column>
+
+                <p:column id="options" headerText="Options">                    
+                    <p:rowEditor id="editor"/>                    
+                </p:column>
+
+            </p:dataTable>
+
+            <br/>
+            <br/>
+
+            <bs:buttonLinkAction value="Cerrar" action="#{perSocController.eventoCancelar}" styleClass="btn-warning" immediate="true" icon="glyphicon-ban-circle"></bs:buttonLinkAction>           
+
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://java.sun.com/jsf/composite"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+    <!-- INTERFACE -->
+    <cc:interface>      
+        <cc:attribute name="label" default="UnLabel"></cc:attribute>
+        <cc:attribute name="value" default=""></cc:attribute>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <div class="form-group">            
+            <label class="col-sm-2 control-label">#{cc.attrs.label}</label>
+            <div class="col-sm-10">
+                <p class="form-control-static">#{cc.attrs.value}</p>
+            </div>
+        </div>
+    </cc:implementation>
+</html>

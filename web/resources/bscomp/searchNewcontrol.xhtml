@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://java.sun.com/jsf/composite"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      >
+
+    <!-- INTERFACE -->
+    <cc:interface>        
+        <cc:attribute name="label" default="Texto"></cc:attribute>
+        <cc:attribute name="labelBtnSearch" default="Buscar"></cc:attribute>
+        <cc:attribute name="labelBtnNew" default="Nuevo"></cc:attribute>
+        
+        <cc:attribute name="disabledNew" default="false"></cc:attribute>
+        
+        <cc:attribute name="value" default=""></cc:attribute>    
+        <cc:attribute name="actionListenerSearch"  method-signature="void actionListener(javax.faces.event.ActionEvent)"></cc:attribute>
+        <cc:attribute name="actionNew"  method-signature="String actionListener()"></cc:attribute>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <div class="row">                
+            <div class="col-lg-10">
+                <div class="input-group">
+                    <span class="input-group-addon">#{cc.attrs.label}</span>
+                    <h:inputText styleClass="form-control" value="#{cc.attrs.value}"></h:inputText>
+                    <span class="input-group-btn">                            
+                        <h:commandLink styleClass="btn btn-info" actionListener="#{cc.attrs.actionListenerSearch}">
+                            <span class="glyphicon glyphicon-search"></span> #{cc.attrs.labelBtnSearch}
+                        </h:commandLink>
+                        <h:commandLink styleClass="btn btn-success" value="" action="#{cc.attrs.actionNew}" disabled="#{cc.attrs.disabledNew}">
+                            <span class="glyphicon glyphicon-new-window"></span> #{cc.attrs.labelBtnNew}
+                        </h:commandLink>                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </cc:implementation>
+</html>

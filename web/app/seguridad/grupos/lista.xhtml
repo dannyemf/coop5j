@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/WEB-INF/plantilla/app.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:bs="http://java.sun.com/jsf/composite/bscomp">   
+
+    <ui:define name="page_title">Grupos</ui:define>    
+    <ui:define name="title">Lista de grupos</ui:define>
+    
+    <ui:define name="content">        
+        
+        #{contextBean.checkPagePermiso('lista_grupos')}
+
+        <h:form>  
+            
+            <bs:searchNewcontrol 
+                value="#{listGrupoController.textoBusqueda}" 
+                actionListenerSearch="#{listGrupoController.eventoBuscar}" 
+                actionNew="#{grupoController.eventoNuevo}">
+            </bs:searchNewcontrol>                        
+
+            
+            <br/>
+            <br/>                       
+            
+            <p:dataTable id="listTable" value="#{listGrupoController.listaDatos}"
+                           var="item"
+                                                    
+                           paginator="true" paginatorPosition="bottom" rows="10">
+                
+                <p:column headerText="Id" sortBy="#{item.id}" filterBy="#{item.id}" filterMatchMode="contains">
+                    <h:outputText value="#{item.id}"/>
+                </p:column>
+                
+                <p:column headerText="Nombre" sortBy="#{item.nombre}" filterBy="#{item.nombre}" filterMatchMode="contains">
+                    <h:outputText value="#{item.nombre}"/>
+                </p:column>
+                
+                <p:column headerText="Descripción" sortBy="#{item.descripcion}" filterBy="#{item.descripcion}" filterMatchMode="contains">
+                    <h:outputText value="#{item.descripcion}"/>
+                </p:column>
+                
+                <p:column headerText="Acción">
+                    <h:commandLink value="Editar" target="_blank" action="#{grupoController.eventoEditar(item)}"></h:commandLink>
+                </p:column>
+                
+            </p:dataTable>
+            
+            
+            
+        </h:form>
+        
+    </ui:define>
+
+</ui:composition>

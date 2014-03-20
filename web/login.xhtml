@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./WEB-INF/plantilla/home.xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:p="http://primefaces.org/ui">    
+
+    <ui:define name="content">                
+        
+        <h:form>
+            <center>
+                <div style="width: 300px" class="well">                
+
+                <p><b>Estimado usuario: </b>Verifique que los datos estén correctos.</p>
+                <br/>                                
+                
+                <h:inputText id="username"  maxlength="60" class="form-control" required="true" value="#{loginBean.usename}" pt:placeholder="Usuario" pt:autofocus="" label="Usuario">
+                    <f:validateLength minimum="5"></f:validateLength>                    
+                </h:inputText>                
+                <p:message for="username"></p:message>
+
+                <br/>
+                <h:inputSecret id="password" maxlength="32" class="form-control" pt:placeholder="Contraseña" required="true" value="#{loginBean.password}" label="Clave">
+                    <f:validateLength minimum="5"></f:validateLength>
+                </h:inputSecret>                
+                <p:message for="password"></p:message>
+
+                <br/>
+                
+                <button class="btn btn-lg btn-primary btn-block" jsf:action="#{loginBean.login()}">
+                    <span class="glyphicon glyphicon-home"></span>
+                    Ingresar
+                </button>                                  
+                
+                <br/>    
+            </div>
+            </center>
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>

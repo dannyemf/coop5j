@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://java.sun.com/jsf/composite"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"              
+      xmlns:h="http://java.sun.com/jsf/html">
+
+    <!-- INTERFACE -->
+    <cc:interface>      
+        <cc:attribute name="id"></cc:attribute>
+        <cc:attribute name="label" default="UnLabel"></cc:attribute>
+        <cc:attribute name="value" default="false"></cc:attribute>
+        <cc:attribute name="partialSubmit" default="false"></cc:attribute>
+        <cc:attribute name="onchange" default=""></cc:attribute>        
+        
+        <cc:editableValueHolder name="control" targets="control" />
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <div class="row" id="#{cc.attrs.id}">
+            <div class="col-lg-6">
+                <div class="input-group">
+                    <span class="input-group-addon">                          
+                        <p:selectBooleanCheckbox id="control" value="#{cc.attrs.value}" immediate="#{cc.attrs.partialSubmit}" onchange="#{cc.attrs.onchange}"></p:selectBooleanCheckbox>
+                    </span>
+                    <label class="form-control">#{cc.attrs.label}</label>
+                </div>
+            </div>
+        </div>
+    </cc:implementation>
+</html>

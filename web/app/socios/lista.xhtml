@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/WEB-INF/plantilla/app.xhtml"
+                xmlns:p="http://primefaces.org/ui"                
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:bs="http://java.sun.com/jsf/composite/bscomp">   
+
+    <ui:define name="page_title">Socios</ui:define>    
+    <ui:define name="title">Lista de socios</ui:define>
+    
+    <ui:define name="content">
+        
+        #{contextBean.checkPagePermiso('lista_socios')}
+
+        <h:form id="formListaUsuarios">
+            
+            <bs:searchNewcontrol 
+                value="#{listSocioController.textoBusqueda}" 
+                actionListenerSearch="#{listSocioController.eventoBuscar}" 
+                actionNew="#{socioController.eventoNuevo}"
+                disabledNew="#{contextBean.checkDisabled('crear_socio')}">
+            </bs:searchNewcontrol>
+            
+            <br/>
+            <br/>
+            
+            <p:dataTable id="listTable" value="#{listSocioController.listaDatos}" 
+                           var="item" paginator="true" paginatorPosition="bottom" rows="10">
+                
+                <p:column headerText="Id" sortBy="id" filterBy="#{item.id}" filterMatchMode="contains">
+                    <h:outputText value="#{item.id}"/>
+                </p:column>
+                
+                <p:column headerText="Cédulado" sortBy="cedulado" filterBy="#{item.cedula}" filterMatchMode="contains">
+                    <h:outputText value="#{item.cedulado ? 'Si' : 'No'}"/>
+                </p:column>
+                
+                <p:column headerText="Cédula" sortBy="cedula" filterBy="#{item.cedula}" filterMatchMode="contains">
+                    <h:outputText value="#{item.cedula}"/>
+                </p:column>
+                
+                <p:column headerText="Apellidos" sortBy="apellidos" filterBy="#{item.apellidos}" filterMatchMode="contains">
+                    <h:outputText value="#{item.apellidos}"/>
+                </p:column>
+                
+                <p:column headerText="Nombres" sortBy="nombres" filterBy="#{item.nombres}" filterMatchMode="contains">
+                    <h:outputText value="#{item.nombres}"/>
+                </p:column>                                
+                
+                <p:column>
+                    <h:commandLink value="Editar" action="#{socioController.eventoEditar(item)}" disabled="#{contextBean.checkDisabled('editar_socio')}"></h:commandLink>
+                </p:column>
+                
+            </p:dataTable>
+            
+            
+            
+        </h:form>
+        
+    </ui:define>
+
+</ui:composition>

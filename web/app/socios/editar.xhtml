@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/WEB-INF/plantilla/app.xhtml"
+                xmlns:p="http://primefaces.org/ui"                
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"                
+                xmlns:bs="http://java.sun.com/jsf/composite/bscomp">
+ 
+    <ui:define name="page_title">Socios</ui:define>
+    <ui:define name="title">#{socioController.modeloEdicion.id eq null ? 'Nuevo':'Editar'} socio</ui:define>
+    
+    <ui:define name="content">                
+        
+        #{contextBean.checkPagePermiso(socioController.modeloEdicion.id eq null ? 'crear_socio' : 'editar_socio')}
+
+        <bs:hform id="hform" frmId="frmEdit">                                    
+            
+            <bs:offsetFormGroup id="ofgCedulado">
+                <bs:checkboxAddon
+                    id="cbaCedulado"
+                    label="Es cedulado?" partialSubmit="true" 
+                                  value="#{socioController.modeloEdicion.cedulado}">
+                </bs:checkboxAddon>
+            </bs:offsetFormGroup>
+            
+            <bs:inputText id="txtCedula" label="Cedula#{socioController.modeloEdicion.cedulado ? '':' representante'}" 
+                          value="#{socioController.modeloEdicion.cedula}" maxlength="10" required="#{socioController.modeloEdicion.cedulado}">
+            </bs:inputText> 
+            
+            <bs:inputText id="txtNom" label="Nombres" value="#{socioController.modeloEdicion.nombres}" minlength="3" maxlength="80" required="true"></bs:inputText>                         
+            <bs:inputText id="txtApe" label="Apellidos" value="#{socioController.modeloEdicion.apellidos}" minlength="3" maxlength="80" required="true"></bs:inputText>             
+            
+            <bs:formControls>
+                <bs:buttonLinkAction value="Guardar" action="#{socioController.eventoGuardar}" styleClass="btn-success" icon="glyphicon-save"></bs:buttonLinkAction>
+                <bs:buttonLinkAction value="Cancelar" action="#{socioController.eventoCancelar}" styleClass="btn-warning" immediate="true" icon="glyphicon-ban-circle"></bs:buttonLinkAction>
+            </bs:formControls>
+            
+        </bs:hform>
+        
+    </ui:define>
+
+</ui:composition>

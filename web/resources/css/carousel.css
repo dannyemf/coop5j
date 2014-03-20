@@ -1,0 +1,57 @@
+/* 
+    Document   : carousel
+    Created on : 03/12/2013, 05:19:23 PM
+    Author     : uti
+    Description: carousel
+*/
+
+/* CUSTOMIZE THE CAROUSEL
+-------------------------------------------------- */
+
+/* Carousel base class */
+.carousel {
+  /*height: 500px;*/
+  /*margin-bottom: 60px;*/
+}
+/* Since positioning the image, we need to help out the caption */
+.carousel-caption {
+  z-index: 10;
+}
+
+/* Declare heights because of positioning of img element */
+.carousel .item {
+  height: 200px;
+  background-color: #777;
+}
+.carousel-inner > .item > img {
+  position: absolute;
+  
+  left: 0;
+  min-width: 100%;
+  /*height: 500px;*/  
+  margin: 0px;
+}
+
+/* Large desktop */
+@media (min-width: 1200px) {}
+
+/* Portrait tablet to landscape and desktop */
+@media (min-width: 768px) and (max-width: 979px) {
+  .carousel .item {
+    height: 200px;
+  }
+}
+
+/* Landscape phone to portrait tablet */
+@media (max-width: 767px) {
+  .carousel .item {
+    height: 167px;
+  }
+}
+
+/* Landscape phones and down */
+@media (max-width: 480px) {
+    .carousel .item {
+        height: 94px;
+    }
+}

@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/WEB-INF/plantilla/app.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:bs="http://java.sun.com/jsf/composite/bscomp"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">   
+ 
+    <ui:define name="page_title">Menú</ui:define>    
+    <ui:define name="title">#{menuController.modeloEdicion.id eq null ? 'Nuevo':'Editar'} menú</ui:define>
+    
+    <ui:define name="content">                
+        
+        #{contextBean.checkPagePermiso(menuController.modeloEdicion.id eq null ? 'crear_menu' : 'editar_menu')}
+        
+        <bs:hform>
+            
+            <bs:inputText id="txtOrden" label="Orden" value="#{menuController.modeloEdicion.orden}" maxlength="10" required="true"></bs:inputText>
+            <bs:inputText id="txtEtiqueta" label="Etiqueta" value="#{menuController.modeloEdicion.etiqueta}" minlength="3" maxlength="45" required="true"></bs:inputText>
+            <bs:inputText id="txtControl" label="Url" value="#{menuController.modeloEdicion.url}" maxlength="255"></bs:inputText>
+            <bs:formControl label="Icono">
+                <p:selectOneMenu id="somIcono" var="ic" value="#{menuController.selectedIcon}"
+                                 panelStyle="width:150px" style="width:160px" filter="true" filterMatchMode="contains" converter="itemIconoConverter">
+                    <f:selectItem itemLabel="--Seleccione--" />
+                    <f:selectItems var="ici" itemLabel="#{ici.icono}" itemValue="#{ici}" value="#{menuController.iconos}"></f:selectItems>
+                    
+                    <p:column>
+                        <h:outputText styleClass="ui-icon #{ic.icono}"></h:outputText>
+                    </p:column>                     
+                    <p:column>
+                        <h:outputText value="#{ic.icono}"></h:outputText>
+                    </p:column>                     
+                </p:selectOneMenu>
+                <p:message for="somIcono"></p:message>
+            </bs:formControl>            
+            
+            <bs:selectOneMenu id="somPadre" label="Padre" value="#{menuController.modeloEdicion.padre}">
+                <f:selectItem itemLabel="--Ninguno--"></f:selectItem>
+                
+                <f:selectItems value="#{menuController.listaPadres}" var="p" itemLabel="#{p.etiqueta}"></f:selectItems>                    
+                <f:converter for="control" converterId="menuConverter"></f:converter>                
+            </bs:selectOneMenu> 
+            
+            <bs:formControl label="Grupos">
+                <c:forEach var="g" items="#{menuController.grupos}">
+                    <bs:checkboxAddon label="#{g.grupo.descripcion}" value="#{g.checked}"></bs:checkboxAddon>
+                </c:forEach>                
+            </bs:formControl>
+            
+            <bs:formControls>
+                <bs:buttonLinkAction value="Guardar" action="#{menuController.eventoGuardar}" styleClass="btn-success" icon="glyphicon-save"></bs:buttonLinkAction>
+                <bs:buttonLinkAction value="Cancelar" action="#{menuController.eventoCancelar}" styleClass="btn-warning" immediate="true" icon="glyphicon-ban-circle"></bs:buttonLinkAction>
+            </bs:formControls>
+            
+        </bs:hform>
+        
+    </ui:define>
+
+</ui:composition>

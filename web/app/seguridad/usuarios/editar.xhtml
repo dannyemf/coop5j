@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/WEB-INF/plantilla/app.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"                
+                xmlns:bs="http://java.sun.com/jsf/composite/bscomp">
+ 
+    <ui:define name="page_title">Usuarios</ui:define>
+    <ui:define name="title">#{usuarioController.modeloEdicion.id eq null ? 'Nuevo':'Editar'} usuario</ui:define>
+    
+    <ui:define name="content">
+        
+        #{contextBean.checkPagePermiso(usuarioController.modeloEdicion.id eq null ? 'crear_usuario' : 'editar_usuario')}
+
+        <bs:hform>
+            
+            <bs:inputText id="txtLogin" label="Login" value="#{usuarioController.modeloEdicion.userName}" minlength="5" maxlength="15" required="true">                
+                <f:validator for="control" validatorId="uniqueValidator"></f:validator>
+                <f:attribute name="uniqueValidatorEntity" value="#{usuarioController.modeloEdicion}"></f:attribute>
+                <f:attribute name="uniqueValidatorProperty" value="userName"></f:attribute>
+                <f:attribute name="uniqueValidatorMessage" value="Nombre de usuario no disponible"></f:attribute>
+            </bs:inputText> 
+            
+            <bs:inputText id="txtDesc" label="Descripción" value="#{usuarioController.modeloEdicion.descripcion}" minlength="5" maxlength="255" required="true"></bs:inputText> 
+            <bs:inputSecret id="txtPass" label="Clave" value="#{usuarioController.modeloEdicion.password}" minlength="5" maxlength="15" required="true" redisplay="true"></bs:inputSecret>                                    
+            
+            <bs:formControl label="Grupos">
+                <c:forEach var="g" items="#{usuarioController.grupos}">
+                    <bs:checkboxAddon label="#{g.grupo.descripcion}" value="#{g.checked}"></bs:checkboxAddon>
+                </c:forEach>                
+            </bs:formControl>
+            
+            <bs:formControls>
+                <bs:buttonLinkAction value="Guardar" action="#{usuarioController.eventoGuardar}" styleClass="btn-success" icon="glyphicon-save"></bs:buttonLinkAction>
+                <bs:buttonLinkAction value="Cancelar" action="#{usuarioController.eventoCancelar}" styleClass="btn-warning" immediate="true" icon="glyphicon-ban-circle"></bs:buttonLinkAction>
+            </bs:formControls>
+            
+        </bs:hform>
+        
+    </ui:define>
+
+</ui:composition>
