@@ -29,7 +29,7 @@ public class ContextBean implements Serializable{
     private List<Permiso> permisos = new ArrayList<Permiso>();        
     
     @EJB
-    PermisoService servicePermiso;            
+    private PermisoService servicePermiso;            
     
     public void init(Usuario usuario){
         this.usuario = usuario;        

@@ -108,7 +108,7 @@ public class UsuarioController extends AbstractController{
      */
     public String eventoCancelar(){
         System.out.println("eventoCancelar(): ");
-        //endConversation();        
+        endConversation();        
         return toRedirect("lista.xhtml");
     }
     
@@ -130,7 +130,7 @@ public class UsuarioController extends AbstractController{
         
         service.save(modeloEdicion);
                 
-        //endConversation();
+        endConversation();
         return toRedirect("lista.xhtml");
     }    
 

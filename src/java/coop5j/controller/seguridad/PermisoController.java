@@ -109,7 +109,7 @@ public class PermisoController extends AbstractController{
      */
     public String eventoCancelar(){
         System.out.println("eventoCancelar(): ");
-        //endConversation();        
+        endConversation();        
         return "lista.xhtml?faces-redirect=true";
     }
     
@@ -130,9 +130,8 @@ public class PermisoController extends AbstractController{
         }
         
         service.save(modeloEdicion);
-        
-        
-        //endConversation();
+                
+        endConversation();
         return "lista.xhtml?faces-redirect=true";
     }    
 

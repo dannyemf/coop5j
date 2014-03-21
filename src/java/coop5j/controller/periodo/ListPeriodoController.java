@@ -4,13 +4,10 @@
  */
 package coop5j.controller.periodo;
 
-import coop5j.controller.socio.*;
 import coop5j.controller.AbstractController;
 import coop5j.controller.ContextBean;
 import coop5j.model.core.Periodo;
-import coop5j.model.core.Socio;
 import coop5j.service.PeriodoService;
-import coop5j.service.SocioService;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;

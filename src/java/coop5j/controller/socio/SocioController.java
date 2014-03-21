@@ -128,13 +128,13 @@ public class SocioController extends AbstractController{
             }
             
             service.save(modeloEdicion);
+            
+            endConversation();
             return toRedirect("lista.xhtml");
         }
         
-        return null;
-                
-        //endConversation();
-        
+        endConversation();
+        return null;                               
     }      
     
     public boolean doValidCedula() {

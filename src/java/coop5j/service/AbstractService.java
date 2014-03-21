@@ -12,7 +12,6 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
  *
@@ -77,7 +76,7 @@ public abstract class AbstractService {
             Method m = entity.getClass().getMethod("getId");
             return m.invoke(entity);
         } catch (Exception e) {
-            throw new NotImplementedException();
+            return null;
         }
     }
     
