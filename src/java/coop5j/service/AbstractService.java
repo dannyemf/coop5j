@@ -12,6 +12,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import org.hibernate.engine.transaction.jta.platform.internal.SunOneJtaPlatform;
 
 /**
  *
@@ -23,7 +24,7 @@ public abstract class AbstractService {
     protected EntityManager em;    
 
     public void setEmf(EntityManager emf) {
-        this.em = emf;
+        this.em = emf;                
     }
     
     public JPAQuery from(EntityPath<?>... paths){
