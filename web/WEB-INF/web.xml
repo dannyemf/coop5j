@@ -57,6 +57,10 @@
         <exception-type>org.jboss.weld.context.ContextNotActiveException</exception-type>  
         <location>/expired.jsf?nocid=true</location>  
     </error-page> 
+    <error-page>
+        <error-code>500</error-code>
+        <location>/error.jsf</location>
+    </error-page>    
     
     
 </web-app>

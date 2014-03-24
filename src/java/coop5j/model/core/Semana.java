@@ -6,6 +6,7 @@ package coop5j.model.core;
 
 import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -34,6 +35,9 @@ public class Semana implements Serializable, IEntity {
     
     @ManyToOne(optional = false)
     private Periodo periodo;
+    
+    @Column(nullable = false)
+    private boolean bingo;
 
     public Semana() {
     }
@@ -104,6 +108,20 @@ public class Semana implements Serializable, IEntity {
      */
     public void setPeriodo(Periodo periodo) {
         this.periodo = periodo;
+    }
+
+    /**
+     * @return the bingo
+     */
+    public boolean isBingo() {
+        return bingo;
+    }
+
+    /**
+     * @param bingo the bingo to set
+     */
+    public void setBingo(boolean bingo) {
+        this.bingo = bingo;
     }
     
 }

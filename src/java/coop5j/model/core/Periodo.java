@@ -42,6 +42,9 @@ public class Periodo implements Serializable, IEntity {
     private double valorAccion;
     
     @Column(nullable = false)
+    private double valorBingo;
+    
+    @Column(nullable = false)
     private double valorInteres;
 
     public Periodo() {
@@ -150,6 +153,20 @@ public class Periodo implements Serializable, IEntity {
      */
     public void setValorInteres(double interesPrestamos) {
         this.valorInteres = interesPrestamos;
+    }
+
+    /**
+     * @return the valorBingo
+     */
+    public double getValorBingo() {
+        return valorBingo;
+    }
+
+    /**
+     * @param valorBingo the valorBingo to set
+     */
+    public void setValorBingo(double valorBingo) {
+        this.valorBingo = valorBingo;
     }
     
 }

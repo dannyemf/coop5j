@@ -11,85 +11,91 @@
 
     <ui:define name="page_title">Semanas</ui:define>
     <ui:define name="title">Lista de semanas del periodo</ui:define>
-    
+
     <ui:define name="content">                
-        
+
         #{contextBean.checkPagePermiso(perSemController.modeloEdicion.id eq null ? 'crear_periodo' : 'editar_periodo')}
-        
-        
+
+
 
         <h:form id="frmEdit">                                                                                    
-            
+
             <h:panelGrid columns="7" styleClass="table table-bordered">
-            <h:outputLabel value="Nombre: "></h:outputLabel>
-            <h:inputText value="#{perSemController.modeloEdicion.nombre}" disabled="true"></h:inputText>
-            
-            <h:outputLabel value="Inicio: "></h:outputLabel>
-            <h:inputText value="#{perSemController.modeloEdicion.fechaInicio}" disabled="true">
-                <f:convertDateTime pattern="yyyy-MM-dd"></f:convertDateTime>
-            </h:inputText>
-            
-            <h:outputLabel value="Fin: "></h:outputLabel>
-            <h:inputText value="#{perSemController.modeloEdicion.fechaFin}" disabled="true">
-                <f:convertDateTime pattern="yyyy-MM-dd"></f:convertDateTime>
-            </h:inputText>
-            
-            <c:if test="#{perSemController.listaSemanas.size() == 0}">                
-                <h:panelGrid>
-                    <h:outputLabel value="Los días: "></h:outputLabel>
-                    <h:selectOneMenu value="#{perSemController.diaSemana}">
-                    <f:selectItem itemValue="lun" itemLabel="Lunes"></f:selectItem>
-                    <f:selectItem itemValue="mar" itemLabel="Martes"></f:selectItem>
-                    <f:selectItem itemValue="mié" itemLabel="Miercoles"></f:selectItem>
-                    <f:selectItem itemValue="jue" itemLabel="Jueves"></f:selectItem>
-                    <f:selectItem itemValue="vie" itemLabel="Viernes"></f:selectItem>
-                    <f:selectItem itemValue="sáb" itemLabel="Sábado"></f:selectItem>
-                    <f:selectItem itemValue="dom" itemLabel="Domingo"></f:selectItem>                    
-                </h:selectOneMenu>
-                    <h:commandLink title="Crear semanas" actionListener="#{perSemController.crearSemanas}" onclick="return confirm('¿Desea crear las semanas para el día seleccionado?');">
-                    <span class="glyphicon glyphicon-plus-sign"></span> Crear semanas
-                </h:commandLink>
-                </h:panelGrid>
-            </c:if>
-        </h:panelGrid>
-        
-        <br/>
-        
+                <h:outputLabel value="Nombre: "></h:outputLabel>
+                <h:inputText value="#{perSemController.modeloEdicion.nombre}" disabled="true"></h:inputText>
+
+                <h:outputLabel value="Inicio: "></h:outputLabel>
+                <h:inputText value="#{perSemController.modeloEdicion.fechaInicio}" disabled="true">
+                    <f:convertDateTime pattern="yyyy-MM-dd"></f:convertDateTime>
+                </h:inputText>
+
+                <h:outputLabel value="Fin: "></h:outputLabel>
+                <h:inputText value="#{perSemController.modeloEdicion.fechaFin}" disabled="true">
+                    <f:convertDateTime pattern="yyyy-MM-dd"></f:convertDateTime>
+                </h:inputText>
+
+                <c:if test="#{perSemController.listaSemanas.size() == 0}">                
+                    <h:panelGrid>
+                        <h:outputLabel value="Los días: "></h:outputLabel>
+                        <h:selectOneMenu value="#{perSemController.diaSemana}">
+                            <f:selectItem itemValue="lun" itemLabel="Lunes"></f:selectItem>
+                            <f:selectItem itemValue="mar" itemLabel="Martes"></f:selectItem>
+                            <f:selectItem itemValue="mié" itemLabel="Miercoles"></f:selectItem>
+                            <f:selectItem itemValue="jue" itemLabel="Jueves"></f:selectItem>
+                            <f:selectItem itemValue="vie" itemLabel="Viernes"></f:selectItem>
+                            <f:selectItem itemValue="sáb" itemLabel="Sábado"></f:selectItem>
+                            <f:selectItem itemValue="dom" itemLabel="Domingo"></f:selectItem>                    
+                        </h:selectOneMenu>
+                        <h:commandLink title="Crear semanas" actionListener="#{perSemController.crearSemanas}" onclick="return confirm('¿Desea crear las semanas para el día seleccionado?');">
+                            <span class="glyphicon glyphicon-plus-sign"></span> Crear semanas
+                        </h:commandLink>
+                    </h:panelGrid>
+                </c:if>
+            </h:panelGrid>
+
             <br/>
-            
-            
+
+            <br/>
+
+
             <p:dataTable id="listTable" value="#{perSemController.listaSemanas}" 
-                           var="item" paginator="true" paginatorPosition="bottom" rows="10">
-                
+                         var="item" paginator="true" paginatorPosition="bottom" rows="10">
+
                 <p:column headerText="Id" sortBy="id" filterBy="#{item.id}" filterMatchMode="contains">
                     <h:outputText value="#{item.id}"/>
                 </p:column>
-                
-                
+
+
                 <p:column headerText="Fecha" sortBy="fecha" filterBy="#{item.fecha}" filterMatchMode="contains">
                     <h:outputText value="#{item.fecha}">
                         <f:convertDateTime pattern="yyyy-MM-dd"></f:convertDateTime>
                     </h:outputText>
                 </p:column>
-                
+
+                <p:column headerText="Bingo" sortBy="bingo" filterBy="#{item.bingo}" filterMatchMode="contains">                    
+                    <h:outputText value="#{item.bingo ? 'Si' : 'No'}"></h:outputText>
+                </p:column>
+
                 <p:column>
                     <div class="btn-group btn-group-sm">                                                
+                        <h:commandLink title="Editar" styleClass="btn btn-success" action="#{semController.eventoEditar(item)}" disabled="#{contextBean.checkDisabled('editar_periodo')}">
+                            <span class="glyphicon glyphicon-edit"></span>
+                        </h:commandLink>
                         <h:commandLink title="Aportes Semanales" styleClass="btn btn-success" action="#{semApoController.eventoAdmAportes(item)}" disabled="#{contextBean.checkDisabled('editar_periodo')}">
                             <span class="glyphicon glyphicon-credit-card"></span>
                         </h:commandLink>
                     </div>
                 </p:column>
-                                
-                
+
             </p:dataTable>
-            
-        <br/>
+
             <br/>
-                            
-        <bs:buttonLinkAction value="Cerrar" action="#{perSemController.eventoCancelar}" styleClass="btn-warning" immediate="true" icon="glyphicon-ban-circle"></bs:buttonLinkAction>           
-            
+            <br/>
+
+            <bs:buttonLinkAction value="Cerrar" action="#{perSemController.eventoCancelar}" styleClass="btn-warning" immediate="true" icon="glyphicon-ban-circle"></bs:buttonLinkAction>           
+
         </h:form>
-        
+
     </ui:define>
 
 </ui:composition>

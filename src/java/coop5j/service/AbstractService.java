@@ -57,6 +57,16 @@ public abstract class AbstractService {
         
     }
     
+    public void delete(IEntity entity){
+        if(entity.getId() != null){
+            Object obj = em.find(entity.getClass(), entity.getId());
+            
+            if(obj != null){
+                em.remove(obj);
+            }
+        }        
+    }
+    
     
     
     public boolean isUnique(Object entity, String property, Object value){

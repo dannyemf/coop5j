@@ -5,49 +5,46 @@
 package coop5j.model.core;
 
 import java.io.Serializable;
-import java.util.Date;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 /**
  *
  * @author uti
  */
 @Entity
-@Table(name = "cop_aporte_bingo")
-public class AporteBingo implements Serializable, IEntity {
+@Table(name = "cop_ingreso_salida")
+public class IngresoSalida implements Serializable {
     
     private static final long serialVersionUID = 1L;
-    
     @Id
+    
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date fecha;
     
     @ManyToOne(optional = false)
     private Semana semana;
     
-    @ManyToOne(optional = false)
-    private Semana semanaRegistro;
+    @Enumerated(EnumType.STRING)
+    private TipoIngresoSalida tipo;
     
-    @ManyToOne(optional = false)
-    private Cuenta cuenta;
+    @Column(nullable = false)
+    private double monto;
 
-    public AporteBingo() {
+    public IngresoSalida() {
     }
 
-    public AporteBingo(Semana semana, Semana semanaRegistro, Cuenta cuenta) {        
+    public IngresoSalida(Semana semana, TipoIngresoSalida tipo, double monto) {        
         this.semana = semana;
-        this.semanaRegistro = semanaRegistro;
-        this.cuenta = cuenta;
+        this.tipo = tipo;
+        this.monto = monto;
     }
     
     
@@ -70,10 +67,10 @@ public class AporteBingo implements Serializable, IEntity {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof AporteBingo)) {
+        if (!(object instanceof IngresoSalida)) {
             return false;
         }
-        AporteBingo other = (AporteBingo) object;
+        IngresoSalida other = (IngresoSalida) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -82,21 +79,7 @@ public class AporteBingo implements Serializable, IEntity {
 
     @Override
     public String toString() {
-        return "coop5j.model.core.AporteBingo[ id=" + id + " ]";
-    }
-
-    /**
-     * @return the fecha
-     */
-    public Date getFecha() {
-        return fecha;
-    }
-
-    /**
-     * @param fecha the fecha to set
-     */
-    public void setFecha(Date fecha) {
-        this.fecha = fecha;
+        return "coop5j.model.core.IngresoSalida[ id=" + id + " ]";
     }
 
     /**
@@ -114,31 +97,31 @@ public class AporteBingo implements Serializable, IEntity {
     }
 
     /**
-     * @return the semanaRegistro
+     * @return the tipo
      */
-    public Semana getSemanaRegistro() {
-        return semanaRegistro;
+    public TipoIngresoSalida getTipo() {
+        return tipo;
     }
 
     /**
-     * @param semanaRegistro the semanaRegistro to set
+     * @param tipo the tipo to set
      */
-    public void setSemanaRegistro(Semana semanaRegistro) {
-        this.semanaRegistro = semanaRegistro;
+    public void setTipo(TipoIngresoSalida tipo) {
+        this.tipo = tipo;
     }
 
     /**
-     * @return the cuenta
+     * @return the monto
      */
-    public Cuenta getCuenta() {
-        return cuenta;
+    public double getMonto() {
+        return monto;
     }
 
     /**
-     * @param cuenta the cuenta to set
+     * @param monto the monto to set
      */
-    public void setCuenta(Cuenta cuenta) {
-        this.cuenta = cuenta;
+    public void setMonto(double monto) {
+        this.monto = monto;
     }
     
 }

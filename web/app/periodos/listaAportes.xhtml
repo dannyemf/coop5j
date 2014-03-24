@@ -16,56 +16,167 @@
         
         #{contextBean.checkPagePermiso(semApoController.modeloEdicion.id eq null ? 'crear_periodo' : 'editar_periodo')}
         
-        
+        <h:panelGrid columns="6" styleClass="table table-bordered">
+            <h:outputLabel value="Nombre: "></h:outputLabel>
+            <h:inputText value="#{semApoController.modeloEdicion.periodo.nombre}" disabled="true"></h:inputText>
 
-        <h:form id="frmEdit">                                                                                    
+            <h:outputLabel value="Inicio: "></h:outputLabel>
+            <h:inputText value="#{semApoController.modeloEdicion.periodo.fechaInicio}" disabled="true">
+                <f:convertDateTime pattern="yyyy-MM-dd"></f:convertDateTime>
+            </h:inputText>
+
+            <h:outputLabel value="Fin: "></h:outputLabel>
+            <h:inputText value="#{semApoController.modeloEdicion.periodo.fechaFin}" disabled="true">
+                <f:convertDateTime pattern="yyyy-MM-dd"></f:convertDateTime>
+            </h:inputText> 
+
+            <h:outputLabel value="Valor acción: "></h:outputLabel>
+            <h:inputText value="#{semApoController.modeloEdicion.periodo.valorAccion}" disabled="true"></h:inputText>
             
-            <h:panelGrid columns="6" styleClass="table table-bordered">
-                <h:outputLabel value="Nombre: "></h:outputLabel>
-                <h:inputText value="#{semApoController.modeloEdicion.periodo.nombre}" disabled="true"></h:inputText>
+            <h:outputLabel value="Valor bingo: "></h:outputLabel>
+            <h:inputText value="#{semApoController.modeloEdicion.periodo.valorBingo}" disabled="true"></h:inputText>
 
-                <h:outputLabel value="Inicio: "></h:outputLabel>
-                <h:inputText value="#{semApoController.modeloEdicion.periodo.fechaInicio}" disabled="true">
-                    <f:convertDateTime pattern="yyyy-MM-dd"></f:convertDateTime>
-                </h:inputText>
+            <h:outputLabel value="Semana: "></h:outputLabel>
+            <h:inputText value="#{semApoController.modeloEdicion.fecha}" disabled="true">
+                <f:convertDateTime pattern="yyyy-MM-dd"></f:convertDateTime>
+            </h:inputText>
 
-                <h:outputLabel value="Fin: "></h:outputLabel>
-                <h:inputText value="#{semApoController.modeloEdicion.periodo.fechaFin}" disabled="true">
-                    <f:convertDateTime pattern="yyyy-MM-dd"></f:convertDateTime>
-                </h:inputText>                        
-            </h:panelGrid>
+            <h:outputLabel value="Total Semanas: "></h:outputLabel>
+            <h:inputText disabled="true" value="#{semApoController.totalSemanasPeriodo}"></h:inputText>
+
+            <h:outputLabel value="Número Semana:"></h:outputLabel>
+            <h:inputText disabled="true" value="#{semApoController.totalSemanasAnteriores}"></h:inputText>
+        </h:panelGrid>  
         
+        <br/>        
         <br/>
         
-            <br/>
+
+        <h:form id="frmEdit">                                                                                                
+        <p:dataTable id="listTable" value="#{semApoController.listaAportes}" var="item" paginator="true" paginatorPosition="bottom" >
+
+            <p:column headerText="Cédula" footerText="Total" sortBy="cedula" filterBy="#{item.cuenta.socio.cedula}" filterMatchMode="contains">
+                <h:outputText value="#{item.cuenta.socio.cedula}" rendered="#{item.cuenta.socio.cedulado}"/>
+                <h:outputText style="color: blue;" value="#{item.cuenta.socio.representante.cedula} (RP)" title="Representante: #{item.cuenta.socio.representante.cedula} - #{item.cuenta.socio.representante.apellidos} #{item.cuenta.socio.nombres}" rendered="#{!item.cuenta.socio.cedulado}"/>
+            </p:column>
+
+            <p:column headerText="Nombres" sortBy="apellidos" filterBy="#{item.cuenta.socio.apellidos}" filterMatchMode="contains">
+                <h:outputText value="#{item.cuenta.socio.apellidos} #{item.cuenta.socio.nombres}"/>
+            </p:column>                                  
             
+            <p:column headerText="Aporte Semanal">
+                <h:outputText value="#{item.cuenta.totalAporteSemanal}"></h:outputText>
+            </p:column>
             
-            <p:dataTable id="listTable" value="#{semApoController.listaAportes}" var="item" paginator="true" paginatorPosition="bottom" rows="10">
-                
-                <p:column headerText="Id" sortBy="id" filterBy="#{item.id}" filterMatchMode="contains">
-                    <h:outputText value="#{item.id}"/>
-                </p:column>
-                
-                <p:column headerText="Cédula" sortBy="cedula" filterBy="#{item.cuenta.socio.cedula}" filterMatchMode="contains">
-                    <h:outputText value="#{item.cuenta.socio.cedula}"/>
-                </p:column>
-                
-                <p:column headerText="Nombres" sortBy="apellidos" filterBy="#{item.cuenta.socio.apellidos}" filterMatchMode="contains">
-                    <h:outputText value="#{item.cuenta.socio.apellidos}"/>
-                </p:column>
-                
-                <p:column headerText="Apellidos" sortBy="nombres" filterBy="#{item.cuenta.socio.nombres}" filterMatchMode="contains">
-                    <h:outputText value="#{item.cuenta.socio.nombres}"/>
-                </p:column>
-                
-            </p:dataTable>
+            <p:column headerText="N° Semanas">
+                <h:outputText value="#{item.calcularSemanas()}"></h:outputText>
+            </p:column>
+            
+            <p:column headerText="Total Semanas" footerText="#{semApoController.calcularTotalSemanas()}">
+                <h:outputText value="#{item.calcularTotalSemanas()}"></h:outputText>
+            </p:column>                        
+            
+            <p:column headerText="N° Semanas Bingo">
+                <h:outputText value="#{item.calcularSemanasBingo()}"></h:outputText>
+            </p:column>
+            
+            <p:column headerText="Total Bingo" footerText="#{semApoController.calcularTotalBingo()}">
+                <h:outputText value="#{item.calcularTotalBingo()}"></h:outputText>
+            </p:column>
+            
+            <p:column headerText="TOTAL" footerText="#{semApoController.calcularTotal()}">
+                <h:outputText value="${item.calcularTotal()}"></h:outputText>
+            </p:column>
+
+            <p:column>
+                <p:commandButton value="Aporte" update=":dlgAporte" icon="ui-icon-note" oncomplete="PF('dlgAporte').show();" actionListener="#{semApoController.detalleAportes(item)}"></p:commandButton>                
+            </p:column>                        
+
+        </p:dataTable>             
             
         <br/>
+        
+        <p:commandButton value="Agregar rubro" icon="ui-icon-plus" update="dtRubros" actionListener="#{semApoController.eventoAddRubro}"></p:commandButton>
+        <p:dataTable id="dtRubros" value="#{semApoController.listaRubros}" var="item" paginator="true" paginatorPosition="bottom" >
+            <p:column headerText="Tipo">
+                <p:selectOneMenu value="#{item.tipo}">
+                    <f:selectItem itemLabel="Ingreso" itemValue="Ingreso"></f:selectItem>
+                    <f:selectItem itemLabel="Salida" itemValue="Salida"></f:selectItem>
+                </p:selectOneMenu>
+            </p:column>
+            <p:column headerText="Monto">
+                <p:inputText value="#{item.monto}"></p:inputText>
+            </p:column>
+        </p:dataTable>
+        
         <br/>
                             
         <bs:buttonLinkAction value="Cerrar" action="#{semApoController.eventoCancelar}" styleClass="btn-warning" immediate="true" icon="glyphicon-ban-circle"></bs:buttonLinkAction>           
             
         </h:form>
+        
+        <p:dialog id="dlgAporte" header="Detalle cuenta: #{semApoController.itemAporte.cuenta.id}" widgetVar="dlgAporte" modal="true" resizable="false" width="400">  
+            <h:form id="formAportes">                                
+
+                <h:panelGrid columns="2" style="margin-bottom:10px">  
+                    <h:outputLabel for="dtxtApe" value="Socio:" />
+                    <h:inputText id="dtxtApe" disabled="true" value="#{semApoController.itemAporte.cuenta.socio.apellidos} #{semApoController.itemAporte.cuenta.socio.nombres}"></h:inputText>                    
+                </h:panelGrid>
+                
+                <p:tabView>
+                    <p:tab title="Aportes">
+                        <div style="text-align: right" class="ui-state-active">
+                            <h:outputText value="Agregar semanas: "></h:outputText>
+                            <h:selectOneMenu value="#{semApoController.diasAgregar}">
+                                <f:selectItem itemLabel="1" itemValue="1"/>
+                                <f:selectItem itemLabel="2" itemValue="2"/>
+                                <f:selectItem itemLabel="3" itemValue="3"/>
+                                <f:selectItem itemLabel="4" itemValue="4"/>
+                                <f:selectItem itemLabel="5" itemValue="5"/>
+                            </h:selectOneMenu>
+                            <p:commandButton icon="ui-icon-circle-plus" update="dtAportes" actionListener="#{semApoController.eventoAddSemanas}"></p:commandButton>
+                        </div>
+
+                        <p:dataTable id="dtAportes" rows="5" paginator="true" paginatorPosition="bottom" var="ita" value="#{semApoController.itemAporte.items}">
+                            <p:column headerText="Semana">
+                                <h:outputText value="#{ita.aporte.semana.fecha}"></h:outputText>
+                            </p:column>
+                            <p:column>
+                                <p:selectBooleanCheckbox value="#{ita.checked}"></p:selectBooleanCheckbox>
+                            </p:column>
+                        </p:dataTable> 
+                    </p:tab>
+                    <p:tab title="Bingos">
+                        <div style="text-align: right" class="ui-state-active">
+                            <h:outputText value="Agregar semanas: "></h:outputText>
+                            <h:selectOneMenu value="#{semApoController.diasAgregar}">
+                                <f:selectItem itemLabel="1" itemValue="1"/>
+                                <f:selectItem itemLabel="2" itemValue="2"/>
+                                <f:selectItem itemLabel="3" itemValue="3"/>
+                                <f:selectItem itemLabel="4" itemValue="4"/>
+                                <f:selectItem itemLabel="5" itemValue="5"/>
+                            </h:selectOneMenu>
+                            <p:commandButton icon="ui-icon-circle-plus" update="dtBingos" actionListener="#{semApoController.eventoAddSemanasBingo}"></p:commandButton>
+                        </div>
+
+                        <p:dataTable id="dtBingos" rows="5" paginator="true" paginatorPosition="bottom" var="ita" value="#{semApoController.itemAporte.itemsBingo}">
+                            <p:column headerText="Semana">
+                                <h:outputText value="#{ita.aporte.semana.fecha}"></h:outputText>
+                            </p:column>
+                            <p:column>                                
+                                <p:selectBooleanCheckbox value="#{ita.checked}">                                    
+                                </p:selectBooleanCheckbox>                                
+                            </p:column>
+                        </p:dataTable> 
+                    </p:tab>
+                </p:tabView>                                
+                
+                <br/>
+                
+                <p:commandButton id="submitButton" value="Guardar" actionListener="#{semApoController.guardarAportes()}" oncomplete="PF('dlgAporte').hide();" update=":frmEdit"/>                  
+
+            </h:form>  
+        </p:dialog>
         
     </ui:define>
 

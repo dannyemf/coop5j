@@ -37,6 +37,9 @@ public class AporteSemanal implements Serializable, IEntity{
     private Semana semana;
     
     @ManyToOne(optional = false)
+    private Semana semanaRegistro;
+    
+    @ManyToOne(optional = false)
     private Cuenta cuenta;
     
     @Column(nullable = false)
@@ -45,8 +48,9 @@ public class AporteSemanal implements Serializable, IEntity{
     public AporteSemanal() {
     }
 
-    public AporteSemanal(Semana semana, Cuenta cuenta) {        
+    public AporteSemanal(Semana semana, Semana registro, Cuenta cuenta) {        
         this.semana = semana;
+        this.semanaRegistro = registro;
         this.cuenta = cuenta;
     }
     
@@ -139,6 +143,20 @@ public class AporteSemanal implements Serializable, IEntity{
      */
     public void setEstado(boolean estado) {
         this.estado = estado;
+    }
+
+    /**
+     * @return the semanaRegistro
+     */
+    public Semana getSemanaRegistro() {
+        return semanaRegistro;
+    }
+
+    /**
+     * @param semanaRegistro the semanaRegistro to set
+     */
+    public void setSemanaRegistro(Semana semanaRegistro) {
+        this.semanaRegistro = semanaRegistro;
     }
     
 }
